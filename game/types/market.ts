@@ -1,5 +1,6 @@
 export type Platform = 'polymarket' | 'kalshi' | 'opinion'
 export type ApiStatus = 'ok' | 'error' | 'stale'
+export type CollateralAsset = 'pUSD'
 
 export interface UnifiedMarket {
   id: string
@@ -8,8 +9,9 @@ export interface UnifiedMarket {
   shortTitle: string
   yesPrice: number        // 0.0 - 1.0
   noPrice: number         // 0.0 - 1.0
-  volume24h: number       // USD
-  totalVolume: number     // USD
+  volume24h: number       // pUSD for Polymarket markets
+  totalVolume: number     // pUSD for Polymarket markets
+  collateralAsset?: CollateralAsset
   endDate: string
   isActive: boolean
 }

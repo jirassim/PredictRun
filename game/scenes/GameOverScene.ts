@@ -130,7 +130,7 @@ export class GameOverScene extends Phaser.Scene {
         sunny:  { label: 'BULLISH  Market  +60% YES', color: 0x44FF88 },
         dark:   { label: 'BEARISH  Market  <40% YES', color: 0xFF4444 },
         rainy:  { label: 'VOLATILE Market  +-10%',    color: 0x88AAFF },
-        stormy: { label: 'HIGH VOL Storm   >$5M vol', color: 0xFF8844 },
+        stormy: { label: 'HIGH VOL Storm   >5M pUSD', color: 0xFF8844 },
       }
       const themeInfo = themeLabels[data.trend.theme] || { label: data.trend.theme, color: 0xFFFFFF }
 

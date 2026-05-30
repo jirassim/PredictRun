@@ -1,17 +1,23 @@
 'use client'
 
-interface Props {
-  address: string | null
-  loading: boolean
-  noWallet: boolean
-  onConnect: () => void
-  onDisconnect: () => void
-}
+import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { useEffect } from 'react'
 
-export default function WalletButton({ address, loading, noWallet, onConnect, onDisconnect }: Props) {
+export default function WalletButton() {
+  const { address, isConnected } = useAccount()
+  const { connect, connectors, isPending } = useConnect()
+  const { disconnect } = useDisconnect()
+
+  // Sync address to window so Phaser / LeaderboardService can read it
+  useEffect(() => {
+    window.__walletAddress = isConnected && address ? address : null
+  }, [address, isConnected])
+
   const short = address ? `${address.slice(0, 6)}...${address.slice(-4)}` : null
 
-  if (noWallet) {
+  // No injected wallet available
+  const injected = connectors.find(c => c.id === 'injected')
+  if (!injected) {
     return (
       <a
         href="https://metamask.io"
@@ -25,7 +31,7 @@ export default function WalletButton({ address, loading, noWallet, onConnect, on
     )
   }
 
-  if (address) {
+  if (isConnected && address) {
     return (
       <div className="flex items-center gap-2">
         <div
@@ -44,7 +50,7 @@ export default function WalletButton({ address, loading, noWallet, onConnect, on
           {short}
         </div>
         <button
-          onClick={onDisconnect}
+          onClick={() => disconnect()}
           className="font-mono px-2 py-1 rounded border transition-colors"
           style={{ fontSize: '9px', color: '#555', borderColor: '#2a2a2a' }}
           title="Disconnect wallet"
@@ -59,12 +65,12 @@ export default function WalletButton({ address, loading, noWallet, onConnect, on
 
   return (
     <button
-      onClick={onConnect}
-      disabled={loading}
+      onClick={() => connect({ connector: injected })}
+      disabled={isPending}
       className="font-mono px-3 py-1.5 rounded border transition-all disabled:opacity-40"
       style={{ fontSize: '9px', color: '#888', borderColor: '#333', background: 'transparent' }}
       onMouseEnter={e => {
-        if (!loading) {
+        if (!isPending) {
           (e.target as HTMLElement).style.color = '#FFD700'
           ;(e.target as HTMLElement).style.borderColor = 'rgba(255,215,0,0.4)'
         }
@@ -74,7 +80,7 @@ export default function WalletButton({ address, loading, noWallet, onConnect, on
         ;(e.target as HTMLElement).style.borderColor = '#333'
       }}
     >
-      {loading ? '◌ Connecting...' : '⬡ Connect Wallet'}
+      {isPending ? '◌ Connecting...' : '⬡ Connect Wallet'}
     </button>
   )
 }

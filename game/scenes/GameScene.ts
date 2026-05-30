@@ -834,7 +834,7 @@ export class GameScene extends Phaser.Scene {
       sunny: '☀ Bullish >60%',
       dark: '● Bearish <40%',
       rainy: '~ Volatile ±10%',
-      stormy: '⚡ High Vol >$5M',
+      stormy: '⚡ High Vol >5M pUSD',
     }
     this.themeLabel?.setText(labels[trend.theme] || '')
 

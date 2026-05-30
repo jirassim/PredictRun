@@ -157,10 +157,10 @@ export default function GameWrapper() {
                       {(() => {
                         const vol = Number(gameOverData.trend.totalVolume24h) || 0
                         return vol > 1_000_000
-                          ? `$${(vol / 1_000_000).toFixed(1)}M`
+                          ? `${(vol / 1_000_000).toFixed(1)}M pUSD`
                           : vol > 1000
-                            ? `$${(vol / 1000).toFixed(0)}K`
-                            : `$${vol.toFixed(0)}`
+                            ? `${(vol / 1000).toFixed(0)}K pUSD`
+                            : `${vol.toFixed(0)} pUSD`
                       })()}
                     </p>
                   </div>

@@ -1,4 +1,5 @@
 import type { UnifiedMarket, AggregatedTrend, Platform, ApiStatus } from '../types/market'
+import { POLYMARKET_COLLATERAL_ASSET } from '../../lib/polymarketConfig'
 
 const POLL_INTERVAL = 12000 // 12 seconds
 
@@ -19,6 +20,7 @@ function normalizePolymarket(data: unknown[]): UnifiedMarket[] {
         noPrice: 1 - yesPrice,
         volume24h: parseFloat(market.volume24hr as string) || 0,
         totalVolume: parseFloat(market.volume as string) || 0,
+        collateralAsset: POLYMARKET_COLLATERAL_ASSET,
         endDate: (market.endDate as string) || '',
         isActive: market.active !== false,
       }
